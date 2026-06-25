@@ -1,0 +1,67 @@
+package dev.nerlab.backend.service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import dev.nerlab.backend.model.User;
+import dev.nerlab.backend.model.UserStatus;
+import dev.nerlab.backend.repository.UserRepository;
+
+@Service
+public class UserService {
+
+    private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(UserRepository repository){
+        this.repository = repository;
+        this.passwordEncoder = new BCryptPasswordEncoder();
+    }
+
+    public List<User> findAll(){
+        return repository.findAll();
+    }
+
+    public User findById(UUID id){   
+        return repository.findById(id)
+            .orElseThrow(()-> new IllegalArgumentException("User not Found: " + id));
+    }
+
+    public User create(User user){
+        user.setStatus(UserStatus.ACTIVE);
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return repository.save(user);
+    }
+
+    public User update(UUID id, User updateUser){
+        User existing = findById(id);
+        existing.setFirstName(updateUser.getFirstName());
+        existing.setLastName(updateUser.getLastName());
+        existing.setEmail(updateUser.getEmail());
+        existing.setStatus(
+            updateUser.getStatus() != null 
+                ? updateUser.getStatus() 
+                : existing.getStatus()
+        );
+        existing.setUpdatedAt(LocalDateTime.now());
+        return repository.save(existing);
+    }
+
+    public void deactivate(UUID id){
+
+        User existing = findById(id);
+        existing.setStatus(UserStatus.INACTIVE);
+        update(id, existing);
+
+    }
+
+
+    
+}
