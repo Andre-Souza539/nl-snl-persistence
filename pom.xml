@@ -10,7 +10,7 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>dev.nerlab</groupId>
-	<artifactId>backend</artifactId>
+	<artifactId>nl-snl-persistence</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name />
 	<description />
