@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import dev.nerlab.backend.exception.UserNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -27,9 +28,9 @@ public class UserService {
         return repository.findAll();
     }
 
-    public User findById(UUID id){   
+    public User findById(UUID id){
         return repository.findById(id)
-            .orElseThrow(()-> new IllegalArgumentException("User not Found: " + id));
+            .orElseThrow(()-> new UserNotFoundException(id));
     }
 
     public User create(User user){
@@ -41,7 +42,7 @@ public class UserService {
     }
 
     public User update(UUID id, User updateUser){
-        User existing = findById(id);
+        User existing = repository.findById(id).orElseThrow(()-> new UserNotFoundException(id));
         existing.setFirstName(updateUser.getFirstName());
         existing.setLastName(updateUser.getLastName());
         existing.setEmail(updateUser.getEmail());
@@ -63,5 +64,7 @@ public class UserService {
     }
 
 
-    
+    public void deleteById(UUID id) {
+        repository.deleteById(id);
+    }
 }
