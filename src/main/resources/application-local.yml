@@ -2,6 +2,11 @@ spring:
   application:
     name: backend-local
 
+api:
+  security:
+    token:
+    secret: ${JWT_SECRET:uma-chave-secreta-e-muito-longa-para-desenvolvimento-local-com-mais-de-32-caracteres}
+
 server:
   port: ${SERVER_PORT:8080}
   servlet:
@@ -12,3 +17,4 @@ datasource:
   username: ${DATABASE_USER:sa}
   password: ${DATABASE_PASSWORD:}
   driver-class-name: ${DATABASE_DRIVER:org.h2.Driver}
+

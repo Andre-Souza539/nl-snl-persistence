@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import dev.nerlab.backend.exception.UserNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,15 +16,11 @@ import dev.nerlab.backend.model.UserStatus;
 import dev.nerlab.backend.repository.UserRepository;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
-
-    public UserService(UserRepository repository){
-        this.repository = repository;
-        this.passwordEncoder = new BCryptPasswordEncoder();
-    }
 
     public List<User> findAll(){
         return repository.findAll();
