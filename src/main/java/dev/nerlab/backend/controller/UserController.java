@@ -1,12 +1,11 @@
 package dev.nerlab.backend.controller;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import dev.nerlab.backend.dto.UserRequestDTO;
-import dev.nerlab.backend.dto.UserResponseDTO;
+import dev.nerlab.backend.dto.user.UserRequestDTO;
+import dev.nerlab.backend.dto.user.UserResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

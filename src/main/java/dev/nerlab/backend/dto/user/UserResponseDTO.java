@@ -1,4 +1,4 @@
-package dev.nerlab.backend.dto;
+package dev.nerlab.backend.dto.user;
 
 import dev.nerlab.backend.model.User;
 

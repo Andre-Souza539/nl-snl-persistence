@@ -5,4 +5,6 @@ import lombok.Getter;
 @Getter
 public class ResourceNotFoundException extends Exception {
     public String message;
+
+
 }

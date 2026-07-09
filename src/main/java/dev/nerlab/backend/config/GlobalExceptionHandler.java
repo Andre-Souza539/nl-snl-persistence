@@ -1,6 +1,7 @@
 package dev.nerlab.backend.config;
 
 import dev.nerlab.backend.exception.ApiError;
+import dev.nerlab.backend.exception.FamilyNotFoundException;
 import dev.nerlab.backend.exception.ResourceNotFoundException;
 import dev.nerlab.backend.exception.UserNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -47,6 +48,19 @@ public class GlobalExceptionHandler {
                 Instant.now(),
                 HttpStatus.NOT_FOUND.value(),
                 "User Not Found",
+                ex.getMessage(),
+                request.getRequestURI(),
+                ex.getMessage().lines().toList()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
+
+    @ExceptionHandler(FamilyNotFoundException.class)
+    public ResponseEntity<ApiError> familyNotFound(FamilyNotFoundException ex, HttpServletRequest request){
+        ApiError error = new ApiError(
+                Instant.now(),
+                HttpStatus.NOT_FOUND.value(),
+                "Family Not Found",
                 ex.getMessage(),
                 request.getRequestURI(),
                 ex.getMessage().lines().toList()
