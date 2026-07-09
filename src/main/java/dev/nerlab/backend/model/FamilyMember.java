@@ -16,8 +16,7 @@ public class FamilyMember {
     private FamilyMemberId id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("familyId")
-    @JoinColumn(name = "familyId")
+    @JoinColumn(name = "family_Id", insertable = false, updatable = false)
     private Family family;
 
     @ManyToOne(fetch = FetchType.LAZY)

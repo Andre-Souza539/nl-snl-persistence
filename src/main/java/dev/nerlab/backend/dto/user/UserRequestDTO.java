@@ -1,4 +1,4 @@
-package dev.nerlab.backend.dto;
+package dev.nerlab.backend.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
