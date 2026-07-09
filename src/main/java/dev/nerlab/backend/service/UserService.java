@@ -2,6 +2,7 @@ package dev.nerlab.backend.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import dev.nerlab.backend.exception.UserNotFoundException;
@@ -63,8 +64,8 @@ public class UserService {
 
     }
 
-
     public void deleteById(UUID id) {
-        repository.deleteById(id);
+        User userFound = repository.findById(id).orElseThrow(()-> new UserNotFoundException(id));
+        repository.delete(userFound);
     }
 }
