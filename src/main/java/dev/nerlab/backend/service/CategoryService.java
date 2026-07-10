@@ -8,6 +8,7 @@ import dev.nerlab.backend.model.FamilyMemberId;
 import dev.nerlab.backend.repository.CategoryRepository;
 import dev.nerlab.backend.repository.FamilyMemberRepository;
 import dev.nerlab.backend.repository.FamilyRepository;
+import dev.nerlab.backend.utils.FamilyMembershipValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,18 +23,11 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final FamilyRepository familyRepository;
-    private final FamilyMemberRepository familyMemberRepository;
-
-    private void validateUserFamilyMembership(UUID familyId, UUID userId){
-        boolean isMember = familyMemberRepository.existsById(new FamilyMemberId(familyId, userId));
-        if(!isMember){
-            throw new CustomRuntimeException("Acesso Negado: Você não pertence a esta família");
-        }
-    }
-
+    private final FamilyMembershipValidator membershipValidator;
+    
     @Transactional
     public Category create(CategoryRequestDTO dto, UUID userId){
-        validateUserFamilyMembership(dto.familyId(), userId);
+        membershipValidator.validate(dto.familyId(), userId);
         Family family = familyRepository.findById(dto.familyId())
                 .orElseThrow(()-> new CustomRuntimeException("Família não encontrada"));
 
@@ -47,13 +41,13 @@ public class CategoryService {
     }
 
     public List<Category> findAllByFamily(UUID familyId, UUID userId){
-        validateUserFamilyMembership(familyId,userId);
+        membershipValidator.validate(familyId,userId);
         return categoryRepository.findByFamilyId(familyId);
     }
 
     @Transactional
     public void delete(UUID categoryId, UUID familyId, UUID userId){
-        validateUserFamilyMembership(familyId,userId);
+        membershipValidator.validate(familyId,userId);
 
         Category category = categoryRepository.findByIdAndFamilyId(categoryId,familyId)
                 .orElseThrow(()-> new CustomRuntimeException("Categoria não Encontrada para esta família."));
