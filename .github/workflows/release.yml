@@ -6,8 +6,12 @@ on:
       - main
       - development
 
+# ADICIONE ESTE BLOCO ABAIXO:
+permissions:
+  contents: write
+
 jobs:
   call-shared-release:
     # Chama o fluxo de Release do repositório central
     uses: Andre-Souza539/nerdlab-shared-workflows/.github/workflows/release-reusable.yml@main
-    secrets: inherit # O "inherit" repassa os tokens e segredos automaticamente
+    secrets: inherit
