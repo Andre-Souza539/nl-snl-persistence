@@ -1,0 +1,15 @@
+name: Continuous Integration (CI)
+
+on:
+  pull_request:
+    branches:
+      - main
+      - development
+
+jobs:
+  call-shared-ci:
+    # Chama o fluxo de CI do repositório central
+    uses: Andre-Souza539/nerdlab-shared-workflows/.github/workflows/ci-reusable.yml@main
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}

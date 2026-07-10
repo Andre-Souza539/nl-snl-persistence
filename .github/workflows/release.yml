@@ -1,0 +1,13 @@
+name: Generate Release & Versioning
+
+on:
+  push:
+    branches:
+      - main
+      - development
+
+jobs:
+  call-shared-release:
+    # Chama o fluxo de Release do repositório central
+    uses: Andre-Souza539/nerdlab-shared-workflows/.github/workflows/release-reusable.yml@main
+    secrets: inherit # O "inherit" repassa os tokens e segredos automaticamente
